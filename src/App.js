@@ -1,23 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
+import AceEditor from 'react-ace';
+import Canvas from './components/Canvas';
 
-function App() {
+function onChange(newValue) {
+  console.log("change", newValue);
+}
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="page-container">
+      <div className="editor-container">
+        <AceEditor
+          mode="javascript"
+          theme="github"
+          onChange={onChange}
+          name="editor"
+        />
+      </div>
+      <div className="preview-container">
+        <Canvas className="preview"/>
+      </div>
     </div>
   );
 }
