@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
+import { canvasSize, setContext } from '../crt';
 
 const Canvas = (props) => {
 
@@ -8,12 +9,16 @@ const Canvas = (props) => {
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
 
-    context.fillStyle = 'black';
-    context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+    setContext(context);
   });
 
   return (
-    <canvas ref={canvasRef} {...props}/>
+    <canvas
+      ref={canvasRef}
+      width={canvasSize.width}
+      height={canvasSize.height}
+      {...props}
+      />
   );
 }
 
