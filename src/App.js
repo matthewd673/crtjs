@@ -6,6 +6,8 @@ import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-chrome';
 import RunButton from './components/RunButton';
+import GroupBox from './components/GroupBox';
+import DocView from './components/DocView';
 
 const App = () => {
   
@@ -17,16 +19,17 @@ const App = () => {
 
   return (
     <div className="page-container">
-      <div className="editor-container">
-        <AceEditor
-          mode="javascript"
-          theme="chrome"
-          onChange={onChange}
-          name="editor"
-          width="550px"
-          height="100%"
-          showPrintMargin={false}
-          value={`${`/*
+      <div className="left-container">
+        <GroupBox title="Editor">
+          <AceEditor
+            mode="javascript"
+            theme="chrome"
+            onChange={onChange}
+            name="editor"
+            width="100%"
+            height="100%"
+            showPrintMargin={false}
+            value={`${`/*
   Welcome to CRT.js!
   Use this editor to write your code.
   When you're done, press 'Run' to see
@@ -46,12 +49,20 @@ const loop = () => {
 }
 
 return { init, loop }`}`
-          }
-        />
-        <RunButton code={editorText}/>
+            }
+          />
+          <RunButton code={editorText}/>
+        </GroupBox>
+        <GroupBox title="API Docs" expandable={true}>
+          <DocView />
+        </GroupBox>
       </div>
-      <div className="preview-container">
-        <Canvas className="preview"/>
+      <div className="right-container">
+        <GroupBox title="Preview">
+          <div className='preview-container'>
+            <Canvas className="preview"/>
+          </div>
+        </GroupBox>
       </div>
     </div>
   );

@@ -67,7 +67,7 @@ const tryContext = (canvas) => {
   return true;
 }
 
-export const set = (color, x, y) => {
+export const set = (x, y, color) => {
   canvas.context.fillStyle = canvas.colorTable[color];
   canvas.context.fillRect(
     Math.round(x) * canvas.scale,

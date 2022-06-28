@@ -1,0 +1,51 @@
+.groupbox {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.expandable {
+  height: max-content;
+}
+
+.groupbox-titlebar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Arial', sans-serif;
+  font-size: 12pt;
+  font-weight: bold;
+  background-color: #ECEFF1;
+  color: #263238;
+  padding: 4px 8px;
+  border: 1px solid #263238;
+  border-left: none;
+}
+.groupbox-titlebar p {
+  margin: 0;
+  padding: 0;
+}
+
+.collapse-button {
+  font-size: 8pt;
+  color: #263238;
+  background-color: transparent;
+  border: none;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.child-container {
+  height: 100%;
+}
+
+.expanded {
+  display: block;
+}
+
+.collapsed {
+  display: none;
+}

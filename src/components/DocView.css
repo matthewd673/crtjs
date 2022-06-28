@@ -1,0 +1,6 @@
+.doc-container {
+  padding-left: 24px;
+  max-height: 500px;
+  max-width: 100%;
+  overflow: scroll;
+}

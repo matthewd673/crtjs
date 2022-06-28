@@ -3,12 +3,22 @@
   flex-direction: row;
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 }
 
-.editor-container {
+.right-container {
   position: relative;
-  width: 550px;
-  height: 100%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.left-container {
+  position: relative;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
 }
 
 .preview-container {
@@ -16,7 +26,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  flex-grow: 1;
   height: 100%;
   background-color: #222;
 }

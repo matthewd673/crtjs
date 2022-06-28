@@ -18,7 +18,12 @@ const RunButton = (props) => {
   }
 
   return (
-    <button className={`button ${ isRunning ? 'button-stop' : 'button-run' }`} onClick={onClick}>{ isRunning ? 'Stop' : 'Run'}</button>
+    <button
+      className={`button ${ isRunning ? 'button-stop' : 'button-run' }`}
+      onClick={onClick}
+      >
+        { isRunning ? 'Stop' : 'Run' }
+    </button>
   );
 }
 
