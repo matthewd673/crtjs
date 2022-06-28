@@ -93,7 +93,7 @@ export const run = (code) => {
   const userFunction = new Function(
     'tick', 'canvas', 'Color', // variables
     'set', 'fill', // functions
-    'document', 'window', 'console', // blockers
+    'document', 'window', // blockers
     'alert', // alternatives
     code
     );
@@ -108,12 +108,12 @@ export const run = (code) => {
   const fn = userFunction(
     tickCt, canvas, Color,
     set, fill,
-    null, null, null,
+    null, null,
     internalLog
     );
   
   if (fn === undefined) { // no return statement
-    // TODO: error handling
+    alert('Function is undefined - did you forget a return statement?');
   }
   
   if (fn.init === undefined) { // no init

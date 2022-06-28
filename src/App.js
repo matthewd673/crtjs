@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Canvas from './components/Canvas';
 import AceEditor from 'react-ace';
 
@@ -11,25 +11,7 @@ import DocView from './components/DocView';
 
 const App = () => {
   
-  const [editorText, setEditorText] = useState('');
-
-  const onChange = (text) => {
-    setEditorText(text);
-  }
-
-  return (
-    <div className="page-container">
-      <div className="left-container">
-        <GroupBox title="Editor">
-          <AceEditor
-            mode="javascript"
-            theme="chrome"
-            onChange={onChange}
-            name="editor"
-            width="100%"
-            height="100%"
-            showPrintMargin={false}
-            value={`${`/*
+  const defaultValue = `/*
   Welcome to CRT.js!
   Use this editor to write your code.
   When you're done, press 'Run' to see
@@ -48,8 +30,27 @@ const loop = () => {
 
 }
 
-return { init, loop }`}`
-            }
+return { init, loop }`;
+
+  const [editorText, setEditorText] = useState(defaultValue);
+
+  const onEditorTextChange = (text) => {
+    setEditorText(text);
+  }
+
+  return (
+    <div className="page-container">
+      <div className="left-container">
+        <GroupBox title="Editor">
+          <AceEditor
+            mode="javascript"
+            theme="chrome"
+            onChange={onEditorTextChange}
+            name="editor"
+            width="100%"
+            height="100%"
+            showPrintMargin={false}
+            defaultValue={defaultValue}
           />
           <RunButton code={editorText}/>
         </GroupBox>
