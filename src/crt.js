@@ -5,31 +5,62 @@ export const canvasSize = {
   height: 160 * scale,
 }
 
-let context;
+// let context;
 
-export const setContext = (ctx) => context = ctx;
-
-export const Color = {
-  Black: '#000000',
-  DarkRed: '#7f0622',
-  Red: '#d62411',
-  Orange: '#ff8426',
-  Yellow: '#ffd100',
-  White: '#fafdff',
-  LightPink: '#ff80a4',
-  Pink: '#ff2674',
-  LightPurple: '#94216a',
-  Purple: '#430067',
-  Blue: '#234975',
-  LightBlue: '#68aed4',
-  LightGreen: '#bfff3c',
-  Green: '#10d275',
-  Teal: '#007899',
-  Navy: '#002859',
+let canvas = {
+  context: null,
+  width: 240,
+  height: 160,
+  scale: scale,
+  center: {
+    x: 120,
+    y: 80,
+  },
+  colorTable: {
+    0: '#000000',
+    1: '#7f0622',
+    2: '#d62411',
+    3: '#ff8426',
+    4: '#ffd100',
+    5: '#fafdff',
+    6: '#ff80a4',
+    7: '#ff2674',
+    8: '#94216a',
+    9: '#430067',
+    10: '#234975',
+    11: '#68aed4',
+    12: '#bfff3c',
+    13: '#10d275',
+    14: '#007899',
+    15: '#002859',
+  }
 }
 
-const tryContext = (ctx) => {
-  if (context === null) {
+let abort = true;
+
+export const setContext = (ctx) => canvas.context = ctx;
+
+export const Color = {
+  Black: 0,
+  DarkRed: 1,
+  Red: 2,
+  Orange: 3,
+  Yellow: 4,
+  White: 5,
+  LightPink: 6,
+  Pink: 7,
+  LightPurple: 8,
+  Purple: 9,
+  Blue: 10,
+  LightBlue: 11,
+  LightGreen: 12,
+  Green: 13,
+  Teal: 14,
+  Navy: 15,
+}
+
+const tryContext = (canvas) => {
+  if (canvas.context === null) {
     console.log('No canvas context');
     return false;
   }
@@ -37,26 +68,74 @@ const tryContext = (ctx) => {
 }
 
 export const set = (color, x, y) => {
-  if (!tryContext()) return;
+  canvas.context.fillStyle = canvas.colorTable[color];
+  canvas.context.fillRect(
+    Math.round(x) * canvas.scale,
+    Math.round(y) * canvas.scale,
+    canvas.scale,
+    canvas.scale
+    );
+}
 
-  context.fillStyle = color;
-  context.fillRect(x * scale, y * scale, scale, scale);
+export const fill = (color) => {
+  canvas.context.fillStyle = canvas.colorTable[color];
+  canvas.context.fillRect(0, 0, canvasSize.width, canvasSize.height);
+}
+
+export const internalLog = (message) => {
+  console.log(message); // temp
 }
 
 export const run = (code) => {
-  
-  let tickCt = 0;
-  const loop = () => {
-    if (tryContext()) {
-      context.fillStyle = '#000000';
-      context.fillRect(0, 0, canvasSize.width, canvasSize.height);
-    }
 
-    eval(code);
+  abort = false;
+  
+  const userFunction = new Function(
+    'tick', 'canvas', 'Color', // variables
+    'set', 'fill', // functions
+    'document', 'window', 'console', // blockers
+    'alert', // alternatives
+    code
+    );
+
+  if (tryContext(canvas)) {
+    canvas.context.fillStyle = '#000000';
+    canvas.context.fillRect(0, 0, canvasSize.width, canvasSize.height);
+  }
+
+  let tickCt = 0;
+
+  const fn = userFunction(
+    tickCt, canvas, Color,
+    set, fill,
+    null, null, null,
+    internalLog
+    );
+  
+  if (fn === undefined) { // no return statement
+    // TODO: error handling
+  }
+  
+  if (fn.init === undefined) { // no init
+    // TODO: error handling
+  }
+  if (fn.loop === undefined) { // no loop
+    // TODO: error handling
+  }
+
+  fn.init();
+
+  const loop = () => {
+    fn.loop();
 
     tickCt++;
-    window.requestAnimationFrame(loop);
+
+    if (!abort) window.requestAnimationFrame(loop);
   }
 
   window.requestAnimationFrame(loop);
+}
+
+export const stop = () => {
+  abort = true;
 }

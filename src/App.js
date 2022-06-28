@@ -26,6 +26,27 @@ const App = () => {
           width="550px"
           height="100%"
           showPrintMargin={false}
+          value={`${`/*
+  Welcome to CRT.js!
+  Use this editor to write your code.
+  When you're done, press 'Run' to see
+  it in action.
+
+  @matthewd673
+*/
+
+// init() - runs once when the program is loaded
+const init = () => {
+
+}
+
+// loop() - runs repeatedly until the program stops
+const loop = () => {
+
+}
+
+return { init, loop }`}`
+          }
         />
         <RunButton code={editorText}/>
       </div>

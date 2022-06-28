@@ -1,14 +1,24 @@
 import './RunButton.css';
-import { run } from '../crt';
+import { useState } from 'react';
+import { run, stop } from '../crt';
 
 const RunButton = (props) => {
 
+  const [isRunning, setIsRunning] = useState(false);
+
   const onClick = () => {
-    run(props.code);
+    if (!isRunning) {
+      setIsRunning(true);
+      run(props.code);
+    }
+    else {
+      stop();
+      setIsRunning(false);
+    }
   }
 
   return (
-    <button className='button' onClick={onClick}>Run</button>
+    <button className={`button ${ isRunning ? 'button-stop' : 'button-run' }`} onClick={onClick}>{ isRunning ? 'Stop' : 'Run'}</button>
   );
 }
 
