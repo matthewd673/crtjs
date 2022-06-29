@@ -1,0 +1,16 @@
+.settings-modal {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 4px 24px;
+  width: 600px;
+  height: 400px;
+
+  border-radius: 8px;
+  box-shadow: 0px 0px 16px #000000aa;
+}
+
+.settings-modal h1 {
+  margin-top: 8px;
+  margin-bottom: 0px;
+}

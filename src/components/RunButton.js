@@ -1,6 +1,6 @@
 import './RunButton.css';
 import { useState } from 'react';
-import { run, stop } from '../crt';
+import { run, stop } from '../CRT';
 
 const RunButton = (props) => {
 

@@ -1,7 +1,7 @@
 .button {
   position: absolute;
-  top: 36px;
-  right: 8px;
+  top: 40px;
+  right: 32px;
 
   font-size: 16pt;
 
@@ -14,6 +14,8 @@
   cursor: pointer;
 
   transition: box-shadow 0.3s;
+
+  z-index: 99;
 }
 
 .button-run {

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { canvasSize, setContext } from '../crt';
+import { canvasSize, setContext } from '../CRT';
 
 const Canvas = (props) => {
 

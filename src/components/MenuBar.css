@@ -1,0 +1,35 @@
+.menu-bar {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  background-color: #263238;
+  height: max-content;
+  padding: 4px 8px;
+}
+
+.menu-bar p {
+  font-weight: bold;
+  font-size: 16pt;
+  color: #ECEFF1;
+  margin: 0;
+}
+
+.menu-bar button {
+  font-weight: bold;
+  font-size: 12pt;
+  color: #ECEFF1;
+  background-color: #455A64;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.promo-link {
+  font-family: 'Consolas', monospace;
+  color: #A5D6A7;
+  font-weight: bold;
+
+  position: absolute;
+  right: 8px;
+}

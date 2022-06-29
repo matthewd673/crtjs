@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Canvas from './components/Canvas';
 import AceEditor from 'react-ace';
 
@@ -8,6 +8,9 @@ import 'ace-builds/src-noconflict/theme-chrome';
 import RunButton from './components/RunButton';
 import GroupBox from './components/GroupBox';
 import DocView from './components/DocView';
+import MenuBar from './components/MenuBar';
+import ModalContainer from './components/ModalContainer';
+import SettingsModal from './components/SettingsModal';
 
 const App = () => {
   
@@ -40,30 +43,36 @@ return { init, loop }`;
 
   return (
     <div className="page-container">
-      <div className="left-container">
-        <GroupBox title="Editor">
-          <AceEditor
-            mode="javascript"
-            theme="chrome"
-            onChange={onEditorTextChange}
-            name="editor"
-            width="100%"
-            height="100%"
-            showPrintMargin={false}
-            defaultValue={defaultValue}
-          />
-          <RunButton code={editorText}/>
-        </GroupBox>
-        <GroupBox title="API Docs" expandable={true}>
-          <DocView />
-        </GroupBox>
-      </div>
-      <div className="right-container">
-        <GroupBox title="Preview">
-          <div className='preview-container'>
-            <Canvas className="preview"/>
-          </div>
-        </GroupBox>
+      <ModalContainer>
+        <SettingsModal />
+      </ModalContainer>
+      <MenuBar/>
+      <div className='workspace-container'>
+        <div className="left-container">
+          <GroupBox title="Editor">
+            <AceEditor
+              mode="javascript"
+              theme="chrome"
+              onChange={onEditorTextChange}
+              name="editor"
+              width="100%"
+              height="100%"
+              showPrintMargin={false}
+              defaultValue={defaultValue}
+            />
+            <RunButton code={editorText}/>
+          </GroupBox>
+          <GroupBox title="API Docs" expandable={true}>
+            <DocView />
+          </GroupBox>
+        </div>
+        <div className="right-container">
+          <GroupBox title="Preview">
+            <div className='preview-container'>
+              <Canvas className="preview"/>
+            </div>
+          </GroupBox>
+        </div>
       </div>
     </div>
   );
