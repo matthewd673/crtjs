@@ -35,6 +35,8 @@ const loop = () => {
 
 return { init, loop }`;
 
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+
   const [editorText, setEditorText] = useState(defaultValue);
 
   const onEditorTextChange = (text) => {
@@ -43,10 +45,16 @@ return { init, loop }`;
 
   return (
     <div className="page-container">
-      <ModalContainer>
-        <SettingsModal />
+      <ModalContainer visible={showSettingsModal}>
+        <SettingsModal onHide={() => setShowSettingsModal(false) } />
       </ModalContainer>
-      <MenuBar/>
+      <MenuBar>
+        <p>CRT.js</p>
+        <button>Save</button>
+        <button>Load</button>
+        <button onClick={() => setShowSettingsModal(true)}>Settings</button>
+        <a className='promo-link' href="https://github.com/matthewd673">@matthewd673</a>
+      </MenuBar>
       <div className='workspace-container'>
         <div className="left-container">
           <GroupBox title="Editor">

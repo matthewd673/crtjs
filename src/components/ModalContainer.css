@@ -12,3 +12,11 @@
 
   z-index: 999;
 }
+
+.visible {
+  display: flex;
+}
+
+.hidden {
+  display: none;
+}

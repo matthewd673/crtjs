@@ -19,10 +19,14 @@
   font-weight: bold;
   font-size: 12pt;
   color: #ECEFF1;
-  background-color: #455A64;
+  background-color: #37474F;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  padding: 4px 8px;
+}
+.menu-bar button:hover {
+  background-color: #455A64;
 }
 
 .promo-link {
@@ -32,4 +36,9 @@
 
   position: absolute;
   right: 8px;
+
+  transition: text-shadow 0.15s;
+}
+.promo-link:hover {
+  text-shadow: 0px 0px 4px #a5d6a791;
 }

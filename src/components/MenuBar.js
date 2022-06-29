@@ -1,18 +1,9 @@
 import './MenuBar.css'
 
-const MenuBar = () => {
-
-  const openSettings = () => {
-
-  }
-
+const MenuBar = (props) => {
   return (
     <div className='menu-bar'>
-      <p>CRT.js</p>
-      <button>Save</button>
-      <button>Load</button>
-      <button onClick={openSettings}>Settings</button>
-      <a className='promo-link' href="https://github.com/matthewd673">@matthewd673</a>
+      {props.children}
     </div>
   );
 }
