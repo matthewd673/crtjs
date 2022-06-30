@@ -1,11 +1,13 @@
 import './SettingsModal.css'
+import { useContext } from 'react';
 import Checkbox from './Checkbox';
 import { DialogButton, DialogButtonContainer } from './DialogButton';
-import { useState } from 'react';
+import Dropdown from './Dropdown';
+import { SettingsContext } from '../contexts/SettingsContext';
+import { saveObject } from '../Storage';
 
 const SettingsModal = (props) => {
-
-  const [autosaveChecked, setAutosaveChecked] = useState(true);
+  const settings = useContext(SettingsContext);
 
   const cancelButtonOnClick = () => {
     // TODO: reload saved settings
@@ -13,7 +15,7 @@ const SettingsModal = (props) => {
   }
 
   const saveButtonOnClick = () => {
-    // TODO: save settings
+    saveObject('settings', settings);
     props.onHide();
   }
 
@@ -23,9 +25,23 @@ const SettingsModal = (props) => {
 
       <Checkbox
         text="Auto-save to localStorage"
-        checked={autosaveChecked}
-        onChange={() => setAutosaveChecked(!autosaveChecked)}
+        checked={settings.autosave}
+        onChange={() => settings.setAutosave(!settings.autosave)}
         />
+
+      {/* <Checkbox
+        text="Collapse API Docs by default"
+        checked={settings.collapseApiDocs}
+        onChange={() => settings.setAutosave(!settings.autosave)}
+        /> */}
+
+      <Dropdown
+        text="Editor Theme"
+        selected={settings.editorTheme}
+        options={['Light', 'Dark']}
+        onSelect={(selected) => settings.setEditorTheme(selected)}
+        >
+      </Dropdown>
 
       <DialogButtonContainer>
         <DialogButton

@@ -1,3 +1,4 @@
+/* eslint-disable no-new-func */
 const scale = 3;
 
 export const canvasSize = {

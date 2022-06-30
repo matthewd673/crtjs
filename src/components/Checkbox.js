@@ -1,7 +1,6 @@
 import './Checkbox.css'
 
 const Checkbox = (props) => {
-
   return (
       <div
         className="checkbox-container"

@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Canvas from './components/Canvas';
 import AceEditor from 'react-ace';
 
@@ -12,8 +12,10 @@ import MenuBar from './components/MenuBar';
 import ModalContainer from './components/ModalContainer';
 import SettingsModal from './components/SettingsModal';
 
-const App = () => {
-  
+import { loadObject, promptDownloadText } from './Storage';
+import { SettingsContext } from './contexts/SettingsContext';
+
+const App = () => {  
   const defaultValue = `/*
   Welcome to CRT.js!
   Use this editor to write your code.
@@ -35,12 +37,27 @@ const loop = () => {
 
 return { init, loop }`;
 
+  const settings = useContext(SettingsContext);
+
   const [showSettingsModal, setShowSettingsModal] = useState(false);
 
   const [editorText, setEditorText] = useState(defaultValue);
 
   const onEditorTextChange = (text) => {
     setEditorText(text);
+  }
+
+  const applySettings = (value) => {
+    settings.setAutosave(value.autosave);
+    settings.setEditorTheme(value.editorTheme);
+  }
+
+  const openSettingsModal = () => {
+    let loaded = loadObject('settings');
+    if (loaded !== null) {
+      applySettings(loaded);
+    }
+    setShowSettingsModal(true);
   }
 
   return (
@@ -50,9 +67,8 @@ return { init, loop }`;
       </ModalContainer>
       <MenuBar>
         <p>CRT.js</p>
-        <button>Save</button>
-        <button>Load</button>
-        <button onClick={() => setShowSettingsModal(true)}>Settings</button>
+        <button onClick={() => promptDownloadText(editorText, 'code.js')}>Download</button>
+        <button onClick={openSettingsModal}>Settings</button>
         <a className='promo-link' href="https://github.com/matthewd673">@matthewd673</a>
       </MenuBar>
       <div className='workspace-container'>
