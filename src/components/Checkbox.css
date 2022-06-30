@@ -26,7 +26,7 @@
 }
 
 .checked {
-  background-color: #03A9F4;
+  background-color: var(--accent-color);
 }
 .checked .toggle-indicator {
   transform: translate(18px, 0px);

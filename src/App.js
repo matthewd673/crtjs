@@ -16,6 +16,7 @@ import SettingsModal from './components/SettingsModal';
 import { loadObject, promptDownloadText } from './Storage';
 import { SettingsContext } from './contexts/SettingsContext';
 import ConsoleDisplay from './components/ConsoleDisplay';
+import { ToastView } from './components/Toast';
 
 const App = () => {
 
@@ -66,8 +67,7 @@ return { init, loop }`;
 
   const [editorText, setEditorText] = useState('');
   const [logMessages, setLogMessages] = useState([]);
-
-  let internalLog = [];
+  const [toasts, setToasts] = useState([]);
 
   const onEditorTextChange = (text) => {
     setEditorText(text);
@@ -86,10 +86,26 @@ return { init, loop }`;
     setLogMessages([]);
   }
 
+  const addToast = (toast) => {
+    setToasts([toast, ...toasts]);
+  }
+
+  const loadAutosave = () => {
+    let save = loadObject('code');
+    if (save !== null) setEditorText(save);
+  }
+
   const isFirstRender = useIsFirstRender();
   useEffect(() => {
     if (isFirstRender) {
       loadSettings();
+      if (loadObject('code') !== null) {
+        addToast({
+          title: 'Autosave available',
+          text: 'Would you like to pick up where you left off?',
+          onClick: loadAutosave,
+        });
+      }
     }
   });
 
@@ -115,7 +131,7 @@ return { init, loop }`;
               width="100%"
               height="100%"
               showPrintMargin={false}
-              defaultValue={editorPlaceholderMinimal}
+              value={editorText}
             />
             <RunButton code={editorText} logFunction={addLogMessage} clearLogFunction={clearLogMessages}/>
           </GroupBox>
@@ -131,6 +147,9 @@ return { init, loop }`;
             </div>
           </GroupBox>
         </div>
+        <ToastView
+          toasts={toasts}
+          />
       </div>
     </div>
   );

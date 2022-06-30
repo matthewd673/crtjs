@@ -29,7 +29,7 @@
 }
 
 .dark .groupbox-titlebar {
-  background-color: #263238;
+  background-color: var(--background-dark);
   color: #ECEFF1;
 }
 

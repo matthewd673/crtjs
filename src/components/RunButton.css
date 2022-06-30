@@ -22,11 +22,11 @@
 }
 
 .button-run {
-  background-color: #009688;
+  background-color: var(--run-color);
 }
 
 .button-stop {
-  background-color: #FF5722;
+  background-color: var(--stop-color);
 }
 
 .button:hover {

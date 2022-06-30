@@ -1,3 +1,16 @@
+:root {
+  --background-light: white;
+  --background-secondary-light: #ECEFF1;
+  --background-dark: #263238;
+  --background-secondary-dark: #151b1f;
+  --accent-color: #03A9F4;
+  --promo-color: #a5d6a791;
+  --run-color: #009688;
+  --stop-color: #FF5722;
+}
+
+html { overflow: hidden; }
+
 .page-container {
   display: flex;
   flex-direction: column;
