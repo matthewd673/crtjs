@@ -6,6 +6,9 @@ export const canvasSize = {
   height: 160 * scale,
 }
 
+let mouseData = { x: 0, y: 0, left: false, middle: false, right: false };
+let boundingRect = null;
+
 // let context;
 
 let canvas = {
@@ -40,6 +43,7 @@ let canvas = {
 let abort = true;
 
 export const setContext = (ctx) => canvas.context = ctx;
+export const setBoundingRect = (rect) => boundingRect = rect;
 
 export const Color = {
   Black: 0,
@@ -68,6 +72,17 @@ const tryContext = (canvas) => {
   return true;
 }
 
+export const mouseMoveListener = (e) => {
+  mouseData.x = (e.clientX - boundingRect.left) / scale;
+  mouseData.y = (e.clientY - boundingRect.top) / scale;
+}
+
+export const mouseDownListener = (e) => {
+  mouseData.left = 0x001 & e.buttons;
+  mouseData.right = 0x010 & e.buttons;
+  mouseData.middle = 0x100 & e.buttons;
+}
+
 export const set = (x, y, color) => {
   canvas.context.fillStyle = canvas.colorTable[color];
   canvas.context.fillRect(
@@ -83,6 +98,10 @@ export const fill = (color) => {
   canvas.context.fillRect(0, 0, canvasSize.width, canvasSize.height);
 }
 
+export const getMouse = () => {
+  return mouseData;
+}
+
 export const internalLog = (message) => {
   console.log(message); // temp
 }
@@ -93,7 +112,7 @@ export const run = (code, logFunction) => {
   
   const userFunction = new Function(
     'canvas', 'Color', // variables
-    'set', 'fill', // functions
+    'set', 'fill', 'getMouse', // functions
     'document', 'window', // blockers
     'alert', // alternatives
     code
@@ -107,7 +126,7 @@ export const run = (code, logFunction) => {
 
   const fn = userFunction(
     canvas, Color,
-    set, fill,
+    set, fill, getMouse,
     null, null,
     logFunction
     );

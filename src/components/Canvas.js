@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { canvasSize, setContext } from '../CRT';
+import { canvasSize, mouseMoveListener, mouseDownListener, setBoundingRect, setContext } from '../CRT';
 
 const Canvas = (props) => {
 
@@ -10,6 +10,10 @@ const Canvas = (props) => {
     const context = canvas.getContext('2d');
 
     setContext(context);
+    setBoundingRect(canvas.getBoundingClientRect());
+    canvas.addEventListener('mousemove', mouseMoveListener);
+    canvas.addEventListener('mousedown', mouseDownListener);
+    canvas.addEventListener('mouseup', mouseDownListener);
   });
 
   return (

@@ -38,6 +38,16 @@ An object containing useful information about the canvas.
   - \`y\`
 - \`colorTable\`
   - Contains the hex values of all Colors.
+
+## Input
+### getMouse()
+Get information about the current mouse state.
+Coordinates are scaled to match with the rendering scale.
+- \`x\`
+- \`y\`
+- \`left\` *(boolean)*
+- \`right\` *(boolean)*
+- \`middle\` *(boolean)*
 `
 
   return (
