@@ -17,11 +17,12 @@ const RunButton = (props) => {
         saveObject('code', props.code);
       }
       setIsRunning(true);
-      run(props.code);
+      run(props.code, props.logFunction);
     }
     else {
       stop();
       setIsRunning(false);
+      props.clearLogFunction();
     }
   }
 

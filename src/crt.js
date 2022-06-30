@@ -87,12 +87,12 @@ export const internalLog = (message) => {
   console.log(message); // temp
 }
 
-export const run = (code) => {
+export const run = (code, logFunction) => {
 
   abort = false;
   
   const userFunction = new Function(
-    'tick', 'canvas', 'Color', // variables
+    'canvas', 'Color', // variables
     'set', 'fill', // functions
     'document', 'window', // blockers
     'alert', // alternatives
@@ -104,13 +104,12 @@ export const run = (code) => {
     canvas.context.fillRect(0, 0, canvasSize.width, canvasSize.height);
   }
 
-  let tickCt = 0;
 
   const fn = userFunction(
-    tickCt, canvas, Color,
+    canvas, Color,
     set, fill,
     null, null,
-    internalLog
+    logFunction
     );
   
   if (fn === undefined) { // no return statement
@@ -126,8 +125,9 @@ export const run = (code) => {
 
   fn.init();
 
+  let tickCt = 0;
   const loop = () => {
-    fn.loop();
+    fn.loop(tickCt);
 
     tickCt++;
 

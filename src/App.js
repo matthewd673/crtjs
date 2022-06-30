@@ -15,6 +15,7 @@ import SettingsModal from './components/SettingsModal';
 
 import { loadObject, promptDownloadText } from './Storage';
 import { SettingsContext } from './contexts/SettingsContext';
+import ConsoleDisplay from './components/ConsoleDisplay';
 
 const App = () => {
 
@@ -46,7 +47,7 @@ const init = () => {
 }
 
 // loop() - runs repeatedly until the program stops
-const loop = () => {
+const loop = (tick) => {
 
 }
 
@@ -55,7 +56,7 @@ return { init, loop }`;
 
 }
 
-const loop = () => {
+const loop = (tick) => {
 
 }
 
@@ -64,6 +65,9 @@ return { init, loop }`;
   const [showSettingsModal, setShowSettingsModal] = useState(false);
 
   const [editorText, setEditorText] = useState('');
+  const [logMessages, setLogMessages] = useState([]);
+
+  let internalLog = [];
 
   const onEditorTextChange = (text) => {
     setEditorText(text);
@@ -72,6 +76,14 @@ return { init, loop }`;
   const openSettingsModal = () => {
     loadSettings();
     setShowSettingsModal(true);
+  }
+
+  const addLogMessage = (message) => {
+    setLogMessages([...logMessages, message]);
+  }
+
+  const clearLogMessages = () => {
+    setLogMessages([]);
   }
 
   const isFirstRender = useIsFirstRender();
@@ -105,7 +117,7 @@ return { init, loop }`;
               showPrintMargin={false}
               defaultValue={editorPlaceholderMinimal}
             />
-            <RunButton code={editorText}/>
+            <RunButton code={editorText} logFunction={addLogMessage} clearLogFunction={clearLogMessages}/>
           </GroupBox>
           <GroupBox title="API Docs" expandable={true} expanded={false}>
             <DocView />
@@ -115,6 +127,7 @@ return { init, loop }`;
           <GroupBox title="Preview" expanded={true}>
             <div className='preview-container'>
               <Canvas className="preview"/>
+              <ConsoleDisplay messages={logMessages}/>
             </div>
           </GroupBox>
         </div>

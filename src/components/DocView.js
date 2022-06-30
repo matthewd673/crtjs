@@ -22,6 +22,9 @@ Fill the entire canvas with a given \`Color\`.
 Set a pixel to a given \`Color\`.
 ### Color
 An enum of the 16 colors available for rendering.
+\`Black\`, \`DarkRed\`, \`Red\`, \`Orange\`, \`Yellow\`, \`White\`, \`LightPink\`,
+\`Pink\`, \`LightPurple\`, \`Purple\`, \`Blue\`, \`LightBlue\`, \`LightGreen\`,
+\`Green\`, \`Teal\`, \`Navy\`.
 ### canvas
 An object containing useful information about the canvas.
 - \`context\`
