@@ -3,4 +3,22 @@
   max-height: 500px;
   max-width: 100%;
   overflow: scroll;
+  color: #222;
+}
+
+.dark .doc-container {
+  background-color: #151b1f;
+  color: #eee;
+}
+
+.doc-container code {
+  font-weight: bold;
+  background-color: #eee;
+  padding: 0px 6px;
+  border-radius: 32px;
+}
+
+.dark .doc-container code {
+  background-color: #444;
+  color: white;
 }

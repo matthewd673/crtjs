@@ -9,6 +9,11 @@ import { saveObject } from '../Storage';
 const SettingsModal = (props) => {
   const settings = useContext(SettingsContext);
 
+  const toggleDarkMode = () => {
+    settings.setDarkMode(!settings.darkMode);
+    settings.setEditorTheme(!settings.darkMode ? 'Dark' : 'Light');
+  }
+
   const cancelButtonOnClick = () => {
     // TODO: reload saved settings
     props.onHide();
@@ -24,24 +29,30 @@ const SettingsModal = (props) => {
       <h1>Settings</h1>
 
       <Checkbox
+        text="Dark Mode 🌙"
+        checked={settings.darkMode}
+        onChange={toggleDarkMode}
+        />
+
+      <Checkbox
         text="Auto-save to localStorage"
         checked={settings.autosave}
         onChange={() => settings.setAutosave(!settings.autosave)}
         />
-
-      {/* <Checkbox
-        text="Collapse API Docs by default"
-        checked={settings.collapseApiDocs}
-        onChange={() => settings.setAutosave(!settings.autosave)}
-        /> */}
-
+      
       <Dropdown
         text="Editor Theme"
         selected={settings.editorTheme}
         options={['Light', 'Dark']}
         onSelect={(selected) => settings.setEditorTheme(selected)}
-        >
-      </Dropdown>
+        />
+      
+      <Dropdown
+        text="Editor Placeholder Text"
+        selected={settings.editorPlaceholder}
+        options={['Verbose', 'Minimal']}
+        onSelect={(selected) => settings.setEditorPlaceholder(selected)}
+        />
 
       <DialogButtonContainer>
         <DialogButton

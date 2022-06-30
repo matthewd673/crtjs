@@ -1,13 +1,21 @@
 import './RunButton.css';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { run, stop } from '../CRT';
 
+import { SettingsContext } from '../contexts/SettingsContext';
+import { saveObject } from '../Storage';
+
 const RunButton = (props) => {
+
+  const settings = useContext(SettingsContext);
 
   const [isRunning, setIsRunning] = useState(false);
 
   const onClick = () => {
     if (!isRunning) {
+      if (settings.autosave) {
+        saveObject('code', props.code);
+      }
       setIsRunning(true);
       run(props.code);
     }

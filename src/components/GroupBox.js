@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 const GroupBox = (props) => {
 
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(props.expanded);
 
   const collapseButtonOnClick = () => {
     setExpanded(!expanded);

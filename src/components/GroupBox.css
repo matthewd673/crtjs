@@ -28,6 +28,11 @@
   padding: 0;
 }
 
+.dark .groupbox-titlebar {
+  background-color: #263238;
+  color: #ECEFF1;
+}
+
 .collapse-button {
   font-size: 8pt;
   color: #263238;
@@ -36,6 +41,10 @@
   font-weight: bold;
   text-decoration: underline;
   cursor: pointer;
+}
+
+.dark .collapse-button {
+  color: #ECEFF1;
 }
 
 .child-container {
