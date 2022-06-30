@@ -4,6 +4,9 @@
   left: 0;
   color: white;
   font-family: 'Consolas', monospace;
+
+  display: flex;
+  flex-direction: column;
 }
 .console-display-container p {
   margin: 0;

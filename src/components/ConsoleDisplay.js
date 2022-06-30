@@ -1,11 +1,12 @@
 import './ConsoleDisplay.css'
+import { useEffect, useRef } from 'react';
 
 const ConsoleDisplay = (props) => {
   return (
-    <div className="console-display-container">
-      {props.messages.map((m, i) =>
-        <p key={i} className='console-message'>{m}</p>
-      )}
+    <div
+      ref={props.innerRef}
+      className="console-display-container"
+      >
     </div>
   );
 }

@@ -106,15 +106,15 @@ export const internalLog = (message) => {
   console.log(message); // temp
 }
 
-export const run = (code, logFunction) => {
+export const run = (code, logFunction, useCustomLog, forceCustomLog) => {
 
   abort = false;
   
   const userFunction = new Function(
     'canvas', 'Color', // variables
-    'set', 'fill', 'getMouse', // functions
+    'set', 'fill', 'getMouse', 'print', // functions
     'document', 'window', // blockers
-    'alert', // alternatives
+    'alert', // redirects
     code
     );
 
@@ -123,12 +123,14 @@ export const run = (code, logFunction) => {
     canvas.context.fillRect(0, 0, canvasSize.width, canvasSize.height);
   }
 
+  logFunction = useCustomLog ? logFunction : console.log;
+  const alertFunction = forceCustomLog ? logFunction : alert;
 
   const fn = userFunction(
     canvas, Color,
-    set, fill, getMouse,
+    set, fill, getMouse, logFunction,
     null, null,
-    logFunction
+    alertFunction
     );
   
   if (fn === undefined) { // no return statement

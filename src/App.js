@@ -24,8 +24,13 @@ const App = () => {
   const applySettings = (value) => {
     settings.setDarkMode(value.darkMode);
     settings.setAutosave(value.autosave);
+    
     settings.setEditorTheme(value.editorTheme);
     settings.setEditorPlaceholder(value.editorPlaceholder);
+    
+    settings.setUseCustomLog(value.useCustomLog);
+    settings.setForceCustomLog(value.forceCustomLog);
+    settings.setMaxLogMessages(value.maxLogMessages);
   }
 
   const loadSettings = () => {
@@ -66,8 +71,9 @@ return { init, loop }`;
   const [showSettingsModal, setShowSettingsModal] = useState(false);
 
   const [editorText, setEditorText] = useState('');
-  const [logMessages, setLogMessages] = useState([]);
   const [toasts, setToasts] = useState([]);
+
+  const consoleDisplayRef = useRef(null);
 
   const onEditorTextChange = (text) => {
     setEditorText(text);
@@ -78,12 +84,24 @@ return { init, loop }`;
     setShowSettingsModal(true);
   }
 
-  const addLogMessage = (message) => {
-    setLogMessages([...logMessages, message]);
+  let logMessageCount = 0;
+  const pushLogMessage = (message) => {
+    if (consoleDisplayRef === null) return;
+    let msgElement = document.createElement('p');
+    msgElement.innerText = message;
+    consoleDisplayRef.current.appendChild(msgElement);
+    logMessageCount++;
+
+    if (logMessageCount > settings.maxLogMessages) {
+      consoleDisplayRef.current.removeChild(consoleDisplayRef.current.firstChild);
+      logMessageCount--;
+    }
   }
 
   const clearLogMessages = () => {
-    setLogMessages([]);
+    if (consoleDisplayRef === null) return;
+    consoleDisplayRef.current.innerHTML = '';
+    logMessageCount = 0;
   }
 
   const addToast = (toast) => {
@@ -97,6 +115,8 @@ return { init, loop }`;
 
   const isFirstRender = useIsFirstRender();
   useEffect(() => {
+    // const consoleDisplay = consoleDisplayRef.current;
+
     if (isFirstRender) {
       loadSettings();
       if (loadObject('code') !== null) {
@@ -133,7 +153,7 @@ return { init, loop }`;
               showPrintMargin={false}
               value={editorText}
             />
-            <RunButton code={editorText} logFunction={addLogMessage} clearLogFunction={clearLogMessages}/>
+            <RunButton code={editorText} logFunction={pushLogMessage} clearLogFunction={clearLogMessages}/>
           </GroupBox>
           <GroupBox title="API Docs" expandable={true} expanded={false}>
             <DocView />
@@ -143,7 +163,7 @@ return { init, loop }`;
           <GroupBox title="Preview" expanded={true}>
             <div className='preview-container'>
               <Canvas className="preview"/>
-              <ConsoleDisplay messages={logMessages}/>
+              <ConsoleDisplay innerRef={consoleDisplayRef}/>
             </div>
           </GroupBox>
         </div>

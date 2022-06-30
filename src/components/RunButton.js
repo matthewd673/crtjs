@@ -17,7 +17,7 @@ const RunButton = (props) => {
         saveObject('code', props.code);
       }
       setIsRunning(true);
-      run(props.code, props.logFunction);
+      run(props.code, props.logFunction, settings.useCustomLog, settings.forceCustomLog);
     }
     else {
       stop();

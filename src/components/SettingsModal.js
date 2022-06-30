@@ -5,6 +5,7 @@ import { DialogButton, DialogButtonContainer } from './DialogButton';
 import Dropdown from './Dropdown';
 import { SettingsContext } from '../contexts/SettingsContext';
 import { saveObject } from '../Storage';
+import NumberBox from './NumberBox';
 
 const SettingsModal = (props) => {
   const settings = useContext(SettingsContext);
@@ -53,6 +54,24 @@ const SettingsModal = (props) => {
         options={['Verbose', 'Minimal']}
         onSelect={(selected) => settings.setEditorPlaceholder(selected)}
         /> */}
+
+      <Checkbox
+        text="Use custom log"
+        checked={settings.useCustomLog}
+        onChange={() => settings.setUseCustomLog(!settings.useCustomLog)}
+        />
+      
+      <Checkbox
+        text="Redirect alert() to custom log"
+        checked={settings.forceCustomLog}
+        onChange={() => settings.setForceCustomLog(!settings.forceCustomLog)}
+        />
+      
+      <NumberBox
+        label="Maximum log messages"
+        text={settings.maxLogMessages}
+        onChange={(value) => settings.setMaxLogMessages(value)}
+        />
 
       <DialogButtonContainer>
         <DialogButton
