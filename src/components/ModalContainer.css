@@ -13,10 +13,16 @@
   z-index: 999;
 }
 
-.visible {
+.modal-container.visible {
   display: flex;
+  animation: modal-fadein 0.3s;
 }
 
-.hidden {
+@keyframes modal-fadein {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-container.hidden {
   display: none;
 }

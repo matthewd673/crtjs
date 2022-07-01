@@ -22,6 +22,7 @@ import Tooltip from './components/Tooltip';
 import { run, stop, screenshotCanvas, skipTick, togglePause, setSleepTime } from './CRT';
 import { Toolbar, ToolbarButton } from './components/Toolbar';
 import { FaCamera, FaPause, FaPlay, FaForward, FaStopwatch } from 'react-icons/fa';
+import WelcomeModal from './components/WelcomeModal';
 
 const App = () => {
 
@@ -44,20 +45,15 @@ const App = () => {
   }
 
   const editorPlaceholderVerbose = `/*
-  Welcome to CRT.js!
-  Use this editor to write your code.
-  When you're done, press 'Run' to see
-  it in action.
-
-  @matthewd673
+  === Welcome to CRT.js! ===
+  API documentation is available
+  below, click 'Expand' to view it.
 */
 
-// init() - runs once when the program is loaded
 const init = () => {
 
 }
 
-// loop() - runs repeatedly until the program stops
 const loop = (tick) => {
 
 }
@@ -118,9 +114,9 @@ return { init, loop }`;
     setToasts([toast, ...toasts]);
   }
 
+  let lastCode = '';
   const loadAutosave = () => {
-    let save = loadObject('code');
-    if (save !== null) setEditorText(save);
+    if (lastCode !== '') setEditorText(lastCode);
   }
 
   const runCode = (doHotReload = false) => {
@@ -184,6 +180,7 @@ return { init, loop }`;
       setEditorText(editorPlaceholderVerbose);
 
       if (loadObject('code') !== null) {
+        lastCode = loadObject('code');
         addToast({
           title: 'Autosave available',
           text: 'Would you like to pick up where you left off?',
@@ -217,7 +214,7 @@ return { init, loop }`;
             <span className="hotreload-indicator">🔥</span>Hot Reload
         </button>
         <Tooltip visible={showHotReloadTooltip} mousePos={mousePos}><span><i>(Ctrl+S to reload)</i></span></Tooltip>
-        <a className="promo-link" href="https://github.com/matthewd673">@matthewd673</a>
+        <a className="promo-link" href="http://www.mattdaly.xyz">mattdaly.xyz</a>
       </MenuBar>
       <div className='workspace-container'>
         <div className="left-container">

@@ -9,6 +9,18 @@
 
   border-radius: 8px;
   box-shadow: 0px 0px 16px #000000aa;
+
+  animation: modal-popup 0.2s;
+}
+
+@keyframes modal-popup {
+  from {
+    opacity: 0;
+    transform: scale(0.8, 0.8);
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .dark .settings-modal {
