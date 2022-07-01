@@ -1,12 +1,15 @@
 .toolbar {
   position: absolute;
-  display: block;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
   background-color: white;
   top: 48px;
   border-radius: 8px;
   padding: 4px 4px;
   opacity: 0.15;
   transition: opacity 0.2s;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.199);
 }
 .dark .toolbar {
   opacity: 0.3;

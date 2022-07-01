@@ -19,9 +19,9 @@ import ConsoleDisplay from './components/ConsoleDisplay';
 import { ToastView } from './components/Toast';
 import Tooltip from './components/Tooltip';
 
-import { run, stop, screenshotCanvas } from './CRT';
+import { run, stop, screenshotCanvas, skipTick, togglePause } from './CRT';
 import { Toolbar, ToolbarButton } from './components/Toolbar';
-import { FaCamera } from 'react-icons/fa';
+import { FaCamera, FaPause, FaPlay, FaForward } from 'react-icons/fa';
 
 const App = () => {
 
@@ -80,6 +80,7 @@ return { init, loop }`;
   const [hotReload, setHotReload] = useState(true);
   const [toasts, setToasts] = useState([]);
   const [mousePos, setMousePos] = useState([]);
+  const [codePaused, setCodePaused] = useState(false);
 
   const consoleDisplayRef = useRef(null);
 
@@ -128,12 +129,25 @@ return { init, loop }`;
       }
       run(editorText, pushLogMessage, settings.useCustomLog, settings.forceCustomLog, doHotReload);
       setIsRunning(true);
+      setCodePaused(false);
     }
     else {
       stop();
       clearLogMessages();
       setIsRunning(false);
+      setCodePaused(false);
     }
+  }
+
+  const playPauseCode = () => {
+    if (isRunning) {
+      togglePause();
+      setCodePaused(!codePaused);
+    }
+  }
+
+  const skipTickCode = () => {
+    skipTick();
   }
 
   const mouseMoveHandler = useCallback((e) => {
@@ -219,6 +233,10 @@ return { init, loop }`;
                 <ToolbarButton onClick={screenshotCanvas}>
                   <FaCamera />
                 </ToolbarButton>
+                <ToolbarButton onClick={playPauseCode}>
+                  { codePaused ? <FaPlay /> : <FaPause /> }
+                </ToolbarButton>
+                { codePaused ? <ToolbarButton onClick={skipTickCode}><FaForward /></ToolbarButton> : <></>}
               </Toolbar>
               <Canvas className="preview"/>
               <ConsoleDisplay innerRef={consoleDisplayRef}/>

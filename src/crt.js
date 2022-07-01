@@ -167,8 +167,23 @@ export const run = (code, logFunction, useCustomLog, forceCustomLog, hotReload =
 
   if (abort) {
     abort = false;
-    updateLoop();
+    window.requestAnimationFrame(updateLoop);
   }
+}
+
+export const skipTick = () => {
+  window.requestAnimationFrame(updateLoop);
+}
+
+export const togglePause = () => {
+  abort = !abort;
+  if (!abort) {
+    window.requestAnimationFrame(updateLoop);
+  }
+}
+
+export const stop = () => {
+  abort = true;
 }
 
 export const screenshotCanvas = () => {
@@ -176,8 +191,4 @@ export const screenshotCanvas = () => {
   link.download = 'canvas.png';
   link.href = canvasElement.toDataURL();
   link.click();
-}
-
-export const stop = () => {
-  abort = true;
 }
