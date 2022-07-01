@@ -6,6 +6,9 @@
     "name": "Matthew Daly",
     "url": "http://mattdaly.xyz"
   },
+  "engines": {
+    "node": "14.16.x"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
