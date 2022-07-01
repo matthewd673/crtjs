@@ -51,7 +51,7 @@ const SettingsModal = (props) => {
       {/* <Dropdown
         text="Editor Placeholder Text"
         selected={settings.editorPlaceholder}
-        options={['Verbose', 'Minimal']}
+        options={['Verbose', 'Minimal', 'Empty']}
         onSelect={(selected) => settings.setEditorPlaceholder(selected)}
         /> */}
 

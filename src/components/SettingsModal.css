@@ -4,7 +4,7 @@
   background-color: white;
   padding: 4px 24px;
   width: 600px;
-  height: 400px;
+  height: max-content;
   padding-bottom: 20px;
 
   border-radius: 8px;

@@ -11,13 +11,16 @@ const Toast = (props) => {
     setShow(false);
   }
 
+  const close = () => setShow(false);
+
   if (show) {
   return (
     <div className="toast">
       <p className="title">{props.toast.title}</p>
       <p className="text">{props.toast.text}</p>
       <DialogButtonContainer>
-        <DialogButton text="Load" buttonStyle="primary" onClick={onClick}></DialogButton>
+        <DialogButton text={props.toast.cancelText} onClick={close} />
+        <DialogButton text={props.toast.actionText} buttonStyle="primary" onClick={onClick} />
       </DialogButtonContainer>
     </div>
   );

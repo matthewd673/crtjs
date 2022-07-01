@@ -1,5 +1,5 @@
 import './App.css';
-import { useContext, useEffect, useState, useRef } from 'react';
+import { useContext, useEffect, useState, useRef, useCallback } from 'react';
 import Canvas from './components/Canvas';
 import AceEditor from 'react-ace';
 
@@ -13,10 +13,12 @@ import MenuBar from './components/MenuBar';
 import ModalContainer from './components/ModalContainer';
 import SettingsModal from './components/SettingsModal';
 
-import { loadObject, promptDownloadText } from './Storage';
+import { loadObject, saveObject, promptDownloadText } from './Storage';
 import { SettingsContext } from './contexts/SettingsContext';
 import ConsoleDisplay from './components/ConsoleDisplay';
 import { ToastView } from './components/Toast';
+
+import { run, stop } from './CRT';
 
 const App = () => {
 
@@ -27,7 +29,7 @@ const App = () => {
     
     settings.setEditorTheme(value.editorTheme);
     settings.setEditorPlaceholder(value.editorPlaceholder);
-    
+
     settings.setUseCustomLog(value.useCustomLog);
     settings.setForceCustomLog(value.forceCustomLog);
     settings.setMaxLogMessages(value.maxLogMessages);
@@ -71,6 +73,8 @@ return { init, loop }`;
   const [showSettingsModal, setShowSettingsModal] = useState(false);
 
   const [editorText, setEditorText] = useState('');
+  const [isRunning, setIsRunning] = useState(false);
+  const [hotReload, setHotReload] = useState(true);
   const [toasts, setToasts] = useState([]);
 
   const consoleDisplayRef = useRef(null);
@@ -113,21 +117,50 @@ return { init, loop }`;
     if (save !== null) setEditorText(save);
   }
 
+  const runCode = (doHotReload = false) => {
+    if (!isRunning || doHotReload) {
+      if (settings.autosave) {
+        saveObject('code', editorText);
+      }
+      run(editorText, pushLogMessage, settings.useCustomLog, settings.forceCustomLog, doHotReload);
+      setIsRunning(true);
+    }
+    else {
+      stop();
+      clearLogMessages();
+      setIsRunning(false);
+    }
+  }
+
+  const keyboardShortcutHandler = useCallback((e) => {
+    if (e.ctrlKey && e.key === 's') {
+      e.preventDefault();
+      if (hotReload) runCode(true);
+    }
+  }, [hotReload, runCode]);
+
   const isFirstRender = useIsFirstRender();
   useEffect(() => {
-    // const consoleDisplay = consoleDisplayRef.current;
+    document.addEventListener('keydown', keyboardShortcutHandler);
 
     if (isFirstRender) {
       loadSettings();
+
+      setEditorText(editorPlaceholderVerbose);
+
       if (loadObject('code') !== null) {
         addToast({
           title: 'Autosave available',
           text: 'Would you like to pick up where you left off?',
+          actionText: 'Load',
+          cancelText: 'Ignore',
           onClick: loadAutosave,
         });
       }
     }
-  });
+
+    return () => document.removeEventListener('keydown', keyboardShortcutHandler);
+  }); // listing the dependencies caused a mess and this works so...
 
   return (
     <div className={`page-container ${settings.darkMode ? 'dark' : ''}`}>
@@ -138,7 +171,13 @@ return { init, loop }`;
         <p>CRT.js</p>
         <button onClick={() => promptDownloadText(editorText, 'code.js')}>Download</button>
         <button onClick={openSettingsModal}>Settings</button>
-        <a className='promo-link' href="https://github.com/matthewd673">@matthewd673</a>
+        <button
+          className={`hotreload-button ${ hotReload ? 'hotreload-enabled' : ''}`}
+          onClick={() => setHotReload(!hotReload)}
+          >
+            <span className="hotreload-indicator">🔥</span>Hot Reload
+        </button>
+        <a className="promo-link" href="https://github.com/matthewd673">@matthewd673</a>
       </MenuBar>
       <div className='workspace-container'>
         <div className="left-container">
@@ -153,7 +192,7 @@ return { init, loop }`;
               showPrintMargin={false}
               value={editorText}
             />
-            <RunButton code={editorText} logFunction={pushLogMessage} clearLogFunction={clearLogMessages}/>
+            <RunButton onClick={() => runCode(false) } isRunning={isRunning}/>
           </GroupBox>
           <GroupBox title="API Docs" expandable={true} expanded={false}>
             <DocView />

@@ -106,9 +106,17 @@ export const internalLog = (message) => {
   console.log(message); // temp
 }
 
-export const run = (code, logFunction, useCustomLog, forceCustomLog) => {
+let tick = 0;
 
-  abort = false;
+let userLoopFn = undefined;
+let updateLoop = () => {
+  userLoopFn(tick);
+
+  tick++;
+  if (!abort) window.requestAnimationFrame(updateLoop);
+}
+
+export const run = (code, logFunction, useCustomLog, forceCustomLog, hotReload = false) => {
   
   const userFunction = new Function(
     'canvas', 'Color', // variables
@@ -118,7 +126,7 @@ export const run = (code, logFunction, useCustomLog, forceCustomLog) => {
     code
     );
 
-  if (tryContext(canvas)) {
+  if (!hotReload && tryContext(canvas)) { // only clear if not hot-reloading
     canvas.context.fillStyle = '#000000';
     canvas.context.fillRect(0, 0, canvasSize.width, canvasSize.height);
   }
@@ -132,6 +140,10 @@ export const run = (code, logFunction, useCustomLog, forceCustomLog) => {
     null, null,
     alertFunction
     );
+
+  if (hotReload && (fn === undefined || fn.loop === undefined)) {
+    console.log('fn undef? ', fn === undefined);
+  };
   
   if (fn === undefined) { // no return statement
     alert('Function is undefined - did you forget a return statement?');
@@ -146,16 +158,14 @@ export const run = (code, logFunction, useCustomLog, forceCustomLog) => {
 
   fn.init();
 
-  let tickCt = 0;
-  const loop = () => {
-    fn.loop(tickCt);
+  userLoopFn = fn.loop;
 
-    tickCt++;
+  if (!hotReload) tick = 0;
 
-    if (!abort) window.requestAnimationFrame(loop);
+  if (abort) {
+    abort = false;
+    updateLoop();
   }
-
-  window.requestAnimationFrame(loop);
 }
 
 export const stop = () => {

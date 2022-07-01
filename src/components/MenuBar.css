@@ -42,3 +42,53 @@
 .promo-link:hover {
   text-shadow: 0px 0px 4px #a5d6a791;
 }
+
+.menu-bar .hotreload-button {
+  background-color: #BF360CCC;
+  color: white;
+}
+.menu-bar .hotreload-button:hover {
+  background-color: #BF360C;
+}
+
+.hotreload-indicator {
+  display: inline-block;
+  opacity: 0;
+  padding-right: 6px;
+  animation: cooldown 0.1s ease-in-out;
+}
+.hotreload-enabled .hotreload-indicator {
+  opacity: 1;
+  animation: fireup 0.5s ease-in-out;
+}
+
+@keyframes fireup {
+  0% {
+    opacity: 0;
+    transform: scale(0, 0);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1.5, 1.5) rotate(-16);
+  }
+  40% {
+    transform: scale(1.5, 1.5) translate(0, -2px) rotate(-16deg);
+  }
+  60% {
+    transform: scale(1.6, 1.6) rotate(8deg);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+@keyframes cooldown {
+  from {
+    opacity: 1;
+    transform: scale(1, 1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0, 0);
+  }
+}
