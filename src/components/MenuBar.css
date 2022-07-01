@@ -46,6 +46,7 @@
 .menu-bar .hotreload-button {
   background-color: #BF360CCC;
   color: white;
+  position: relative;
 }
 .menu-bar .hotreload-button:hover {
   background-color: #BF360C;

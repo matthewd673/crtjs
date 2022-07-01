@@ -17,6 +17,7 @@ import { loadObject, saveObject, promptDownloadText } from './Storage';
 import { SettingsContext } from './contexts/SettingsContext';
 import ConsoleDisplay from './components/ConsoleDisplay';
 import { ToastView } from './components/Toast';
+import Tooltip from './components/Tooltip';
 
 import { run, stop } from './CRT';
 
@@ -76,6 +77,7 @@ return { init, loop }`;
   const [isRunning, setIsRunning] = useState(false);
   const [hotReload, setHotReload] = useState(true);
   const [toasts, setToasts] = useState([]);
+  const [mousePos, setMousePos] = useState([]);
 
   const consoleDisplayRef = useRef(null);
 
@@ -132,6 +134,10 @@ return { init, loop }`;
     }
   }
 
+  const mouseMoveHandler = useCallback((e) => {
+    setMousePos({x: e.clientX, y: e.clientY});
+  }, [])
+
   const keyboardShortcutHandler = useCallback((e) => {
     if (e.ctrlKey && e.key === 's') {
       e.preventDefault();
@@ -142,6 +148,7 @@ return { init, loop }`;
   const isFirstRender = useIsFirstRender();
   useEffect(() => {
     document.addEventListener('keydown', keyboardShortcutHandler);
+    document.addEventListener('mousemove', mouseMoveHandler);
 
     if (isFirstRender) {
       loadSettings();
@@ -162,6 +169,8 @@ return { init, loop }`;
     return () => document.removeEventListener('keydown', keyboardShortcutHandler);
   }); // listing the dependencies caused a mess and this works so...
 
+  const [showHotReloadTooltip, setShowHotReloadTooltip] = useState(false);
+
   return (
     <div className={`page-container ${settings.darkMode ? 'dark' : ''}`}>
       <ModalContainer visible={showSettingsModal}>
@@ -174,9 +183,12 @@ return { init, loop }`;
         <button
           className={`hotreload-button ${ hotReload ? 'hotreload-enabled' : ''}`}
           onClick={() => setHotReload(!hotReload)}
+          onMouseEnter={() => setShowHotReloadTooltip(true)}
+          onMouseLeave={() => setShowHotReloadTooltip(false)}
           >
             <span className="hotreload-indicator">🔥</span>Hot Reload
         </button>
+        <Tooltip visible={showHotReloadTooltip} mousePos={mousePos}><span><i>(Ctrl+S to reload)</i></span></Tooltip>
         <a className="promo-link" href="https://github.com/matthewd673">@matthewd673</a>
       </MenuBar>
       <div className='workspace-container'>
