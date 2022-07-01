@@ -9,10 +9,11 @@ const Tooltip = (props) => {
 
   return (
     <div
-      className={`tooltip ${props.visible ? 'visible' : ''}`}
+      className="tooltip"
       style={{
         left: props.mousePos.x + 14,
-        top: props.mousePos.y + 20
+        top: props.mousePos.y + 20,
+        display: props.visible ? 'block' : 'none'
       }}>
       {props.children}
     </div>
