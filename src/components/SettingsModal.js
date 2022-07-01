@@ -56,19 +56,19 @@ const SettingsModal = (props) => {
         /> */}
 
       <Checkbox
-        text="Use custom log"
+        text="Use internal log"
         checked={settings.useCustomLog}
         onChange={() => settings.setUseCustomLog(!settings.useCustomLog)}
         />
       
       <Checkbox
-        text="Redirect alert() to custom log"
+        text="Redirect alert() to internal log"
         checked={settings.forceCustomLog}
         onChange={() => settings.setForceCustomLog(!settings.forceCustomLog)}
         />
       
       <NumberBox
-        label="Maximum log messages"
+        label="Maximum internal log messages"
         text={settings.maxLogMessages}
         onChange={(value) => settings.setMaxLogMessages(value)}
         />

@@ -1,5 +1,4 @@
 import './ConsoleDisplay.css'
-import { useEffect, useRef } from 'react';
 
 const ConsoleDisplay = (props) => {
   return (

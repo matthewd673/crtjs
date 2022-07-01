@@ -54,3 +54,11 @@ html { overflow: hidden; }
   background-color: black;
   cursor: none;
 }
+
+.sleepButtonTime {
+  font-size: 12pt;
+  font-weight: bolder;
+  position: absolute;
+  bottom: 16px;
+  right: 8px;
+}

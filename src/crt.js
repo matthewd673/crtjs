@@ -109,14 +109,28 @@ export const internalLog = (message) => {
   console.log(message); // temp
 }
 
+let sleepTime = 0;
+export const setSleepTime = (ms) => {
+  sleepTime = ms;
+}
+
 let tick = 0;
 
 let userLoopFn = undefined;
 let updateLoop = () => {
   userLoopFn(tick);
 
+
   tick++;
-  if (!abort) window.requestAnimationFrame(updateLoop);
+  if (!abort) {
+    if (sleepTime > 0) {
+      console.log(sleepTime);
+      setTimeout(updateLoop, sleepTime * 100);
+    }
+    else {
+      window.requestAnimationFrame(updateLoop);
+    }
+  }
 }
 
 export const run = (code, logFunction, useCustomLog, forceCustomLog, hotReload = false) => {

@@ -1,12 +1,19 @@
 .console-display-container {
   position: absolute;
-  bottom: 0;
-  left: 0;
+  bottom: 8px;
+  left: 8px;
+  padding-top: 64px;
+  padding-right: 256px;
   color: white;
   font-family: 'Consolas', monospace;
+  opacity: 0.6;
 
   display: flex;
   flex-direction: column;
+  transition: opacity 0.3s;
+}
+.console-display-container:hover {
+  opacity: 1;
 }
 .console-display-container p {
   margin: 0;

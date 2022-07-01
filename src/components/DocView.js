@@ -48,6 +48,14 @@ Coordinates are scaled to match with the rendering scale.
 - \`left\` *(boolean)*
 - \`right\` *(boolean)*
 - \`middle\` *(boolean)*
+
+## Output
+By default, any calls to \`alert()\` will be redirected to the internal log console.
+This can be toggled in settings. If the internal log console is disabled (also in 
+settings) then any messages directed to the internal log will be output in the
+DevTools console.
+### print()
+Print a message to the internal log.
 `
 
   return (

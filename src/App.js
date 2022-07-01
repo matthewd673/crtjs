@@ -19,9 +19,9 @@ import ConsoleDisplay from './components/ConsoleDisplay';
 import { ToastView } from './components/Toast';
 import Tooltip from './components/Tooltip';
 
-import { run, stop, screenshotCanvas, skipTick, togglePause } from './CRT';
+import { run, stop, screenshotCanvas, skipTick, togglePause, setSleepTime } from './CRT';
 import { Toolbar, ToolbarButton } from './components/Toolbar';
-import { FaCamera, FaPause, FaPlay, FaForward } from 'react-icons/fa';
+import { FaCamera, FaPause, FaPlay, FaForward, FaStopwatch } from 'react-icons/fa';
 
 const App = () => {
 
@@ -81,6 +81,7 @@ return { init, loop }`;
   const [toasts, setToasts] = useState([]);
   const [mousePos, setMousePos] = useState([]);
   const [codePaused, setCodePaused] = useState(false);
+  const [codeSleepDelay, setCodeSleepDelay] = useState(0);
 
   const consoleDisplayRef = useRef(null);
 
@@ -148,6 +149,17 @@ return { init, loop }`;
 
   const skipTickCode = () => {
     skipTick();
+  }
+
+  const toggleSleepyModeCode = () => {
+    if (codeSleepDelay < 5) {
+      setSleepTime(codeSleepDelay + 1);
+      setCodeSleepDelay(codeSleepDelay + 1);
+    }
+    else {
+      setSleepTime(0);
+      setCodeSleepDelay(0);
+    }
   }
 
   const mouseMoveHandler = useCallback((e) => {
@@ -237,6 +249,10 @@ return { init, loop }`;
                   { codePaused ? <FaPlay /> : <FaPause /> }
                 </ToolbarButton>
                 { codePaused ? <ToolbarButton onClick={skipTickCode}><FaForward /></ToolbarButton> : <></>}
+                <ToolbarButton onClick={toggleSleepyModeCode}>
+                  <FaStopwatch />
+                  { codeSleepDelay !== 0 ? <span className="sleepButtonTime">{codeSleepDelay}</span> : <></> }
+                </ToolbarButton>
               </Toolbar>
               <Canvas className="preview"/>
               <ConsoleDisplay innerRef={consoleDisplayRef}/>
