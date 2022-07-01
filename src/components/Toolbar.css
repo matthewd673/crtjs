@@ -1,0 +1,39 @@
+.toolbar {
+  position: absolute;
+  display: block;
+  background-color: white;
+  top: 48px;
+  border-radius: 8px;
+  padding: 4px 4px;
+  opacity: 0.15;
+  transition: opacity 0.2s;
+}
+.dark .toolbar {
+  opacity: 0.3;
+  background-color: var(--background-secondary-dark);
+}
+
+.toolbar:hover {
+  opacity: 1;
+}
+
+.toolbar-button {
+  font-size: 20pt;
+  line-height: 0px;
+  padding: 12px 12px;
+  border-radius: 8px;
+  background-color: inherit;
+  border: 0px;
+  cursor: pointer;
+  color: #333;
+}
+.dark .toolbar-button {
+  color: #eee;
+  background-color: var(--background-secondary-dark);
+}
+.toolbar-button:hover {
+  background-color: var(--background-secondary-light);
+}
+.dark .toolbar-button:hover {
+  background-color: var(--background-dark);
+}

@@ -52,4 +52,5 @@ html { overflow: hidden; }
 
 .preview {
   background-color: black;
+  cursor: none;
 }

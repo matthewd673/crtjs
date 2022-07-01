@@ -19,7 +19,9 @@ import ConsoleDisplay from './components/ConsoleDisplay';
 import { ToastView } from './components/Toast';
 import Tooltip from './components/Tooltip';
 
-import { run, stop } from './CRT';
+import { run, stop, screenshotCanvas } from './CRT';
+import { Toolbar, ToolbarButton } from './components/Toolbar';
+import { FaCamera } from 'react-icons/fa';
 
 const App = () => {
 
@@ -213,6 +215,11 @@ return { init, loop }`;
         <div className="right-container">
           <GroupBox title="Preview" expanded={true}>
             <div className='preview-container'>
+              <Toolbar>
+                <ToolbarButton onClick={screenshotCanvas}>
+                  <FaCamera />
+                </ToolbarButton>
+              </Toolbar>
               <Canvas className="preview"/>
               <ConsoleDisplay innerRef={consoleDisplayRef}/>
             </div>

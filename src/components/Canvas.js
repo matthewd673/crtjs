@@ -7,9 +7,8 @@ const Canvas = (props) => {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const context = canvas.getContext('2d');
 
-    setContext(context);
+    setContext(canvas);
     setBoundingRect(canvas.getBoundingClientRect());
     canvas.addEventListener('mousemove', mouseMoveListener);
     canvas.addEventListener('mousedown', mouseDownListener);

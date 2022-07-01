@@ -9,7 +9,7 @@ export const canvasSize = {
 let mouseData = { x: 0, y: 0, left: false, middle: false, right: false };
 let boundingRect = null;
 
-// let context;
+let canvasElement;
 
 let canvas = {
   context: null,
@@ -42,7 +42,10 @@ let canvas = {
 
 let abort = true;
 
-export const setContext = (ctx) => canvas.context = ctx;
+export const setContext = (element) => {
+  canvasElement = element;
+  canvas.context = element.getContext('2d');
+}
 export const setBoundingRect = (rect) => boundingRect = rect;
 
 export const Color = {
@@ -166,6 +169,13 @@ export const run = (code, logFunction, useCustomLog, forceCustomLog, hotReload =
     abort = false;
     updateLoop();
   }
+}
+
+export const screenshotCanvas = () => {
+  let link = document.createElement('a');
+  link.download = 'canvas.png';
+  link.href = canvasElement.toDataURL();
+  link.click();
 }
 
 export const stop = () => {
