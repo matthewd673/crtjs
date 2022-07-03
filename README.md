@@ -1,6 +1,6 @@
 # crtjs
 
-**Try it out: http://mattdaly.xyz/crt/**
+**Try it out: http://www.mattdaly.xyz/crt/**
 
 A **C**anvas **R**endering **T**oy right in the browser, built with React and `<canvas>`.
 
