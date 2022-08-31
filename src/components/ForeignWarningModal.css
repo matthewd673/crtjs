@@ -1,0 +1,14 @@
+.foreignwarning-modal {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 4px 24px;
+  width: 600px;
+  height: max-content;
+  padding-bottom: 20px;
+
+  border-radius: 8px;
+  box-shadow: 0px 0px 16px #000000aa;
+
+  animation: modal-popup 0.2s;
+}

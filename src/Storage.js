@@ -1,3 +1,5 @@
+import { Buffer } from 'buffer';
+
 export const loadObject = (name) => {
   const objString = localStorage.getItem(name);
   if (objString === null) {
@@ -19,4 +21,14 @@ export const promptDownloadText = (text, filename) => {
   a.download = filename;
   a.click();
   window.URL.revokeObjectURL(url);
+}
+
+export const generateShareUrl = (text) => {
+  const urlTemplate = 'http://mattdaly.xyz/crt/?share=';
+  const b64 = Buffer.from(text).toString('base64');
+  return urlTemplate + b64;
+}
+
+export const decodeB64 = (b64) => {
+  return Buffer.from(b64, 'base64').toString('ascii');
 }

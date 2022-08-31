@@ -13,18 +13,18 @@ import MenuBar from './components/MenuBar';
 import ModalContainer from './components/ModalContainer';
 import SettingsModal from './components/SettingsModal';
 
-import { loadObject, saveObject, promptDownloadText } from './Storage';
+import { loadObject, saveObject, promptDownloadText, generateShareUrl, decodeB64 } from './Storage';
 import { SettingsContext } from './contexts/SettingsContext';
 import ConsoleDisplay from './components/ConsoleDisplay';
-import { ToastView } from './components/Toast';
+import { Toast, ToastView } from './components/Toast';
 import Tooltip from './components/Tooltip';
 
 import { run, stop, screenshotCanvas, skipTick, togglePause, setSleepTime } from './CRT';
 import { Toolbar, ToolbarButton } from './components/Toolbar';
 import { FaCamera, FaPause, FaPlay, FaForward, FaStopwatch } from 'react-icons/fa';
-import WelcomeModal from './components/WelcomeModal';
+import ForeignWarningModal from './components/ForeignWarningModal';
 
-const App = () => {
+const App = (props) => {
 
   const settings = useContext(SettingsContext);
   const applySettings = (value) => {
@@ -70,6 +70,7 @@ const loop = (tick) => {
 return { init, loop }`;
 
   const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [showForeignWarningModal, setShowForeignWarningModal] = useState(false);
 
   const [editorText, setEditorText] = useState('');
   const [isRunning, setIsRunning] = useState(false);
@@ -158,6 +159,18 @@ return { init, loop }`;
     }
   }
 
+  const shareButtonHandler = () => {
+    navigator.clipboard.writeText(generateShareUrl(editorText));
+    console.log('ayo');
+    addToast({
+      title: 'Share',
+      text: 'Share link copied to clipboard.',
+      actionText: 'Minify',
+      cancelText: 'Hide',
+      onClick: null
+    });
+  }
+
   const mouseMoveHandler = useCallback((e) => {
     setMousePos({x: e.clientX, y: e.clientY});
   }, [])
@@ -177,7 +190,13 @@ return { init, loop }`;
     if (isFirstRender) {
       loadSettings();
 
-      setEditorText(editorPlaceholderVerbose);
+      if (props.shareCode !== undefined) {
+        setEditorText(decodeB64(props.shareCode));
+        setShowForeignWarningModal(true);
+      }
+      else {
+        setEditorText(editorPlaceholderVerbose);
+      }
 
       if (loadObject('code') !== null) {
         lastCode = loadObject('code');
@@ -201,6 +220,10 @@ return { init, loop }`;
       <ModalContainer visible={showSettingsModal}>
         <SettingsModal onHide={() => setShowSettingsModal(false) } />
       </ModalContainer>
+
+      <ModalContainer visible={showForeignWarningModal}>
+        <ForeignWarningModal onHide={() => setShowForeignWarningModal(false) }/>
+      </ModalContainer>
       <MenuBar>
         <p>CRT.js</p>
         <button onClick={() => promptDownloadText(editorText, 'code.js')}>Download</button>
@@ -214,6 +237,10 @@ return { init, loop }`;
             <span className="hotreload-indicator">🔥</span>Hot Reload
         </button>
         <Tooltip visible={showHotReloadTooltip} mousePos={mousePos}><span><i>(Ctrl+S to reload)</i></span></Tooltip>
+        <button
+          onClick={shareButtonHandler}>
+            🔗 Share
+        </button>
         <a className="promo-link" href="http://www.mattdaly.xyz">mattdaly.xyz</a>
       </MenuBar>
       <div className='workspace-container'>

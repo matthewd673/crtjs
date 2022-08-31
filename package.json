@@ -6,6 +6,7 @@
     "name": "Matthew Daly",
     "url": "http://mattdaly.xyz"
   },
+  "homepage": "http://mattdaly.xyz/crt",
   "engines": {
     "node": "14.16.x"
   },
@@ -14,12 +15,15 @@
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
     "ace-builds": "^1.6.0",
+    "buffer": "^6.0.3",
+    "qs": "^6.11.0",
     "react": "^18.2.0",
     "react-ace": "^10.1.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
     "react-markdown": "^8.0.3",
     "react-scripts": "5.0.1",
+    "uglify-js": "^3.17.0",
     "use-onclickoutside": "^0.4.1",
     "web-vitals": "^2.1.4"
   },
