@@ -25,10 +25,10 @@ export const promptDownloadText = (text, filename) => {
 
 export const generateShareUrl = (text) => {
   const urlTemplate = 'http://mattdaly.xyz/crt/?share=';
-  const b64 = Buffer.from(text).toString('base64');
+  const b64 = encodeURIComponent(Buffer.from(text).toString('base64'));
   return urlTemplate + b64;
 }
 
 export const decodeB64 = (b64) => {
-  return Buffer.from(b64, 'base64').toString('ascii');
+  return Buffer.from(decodeURIComponent(b64), 'base64').toString('utf-8');
 }
